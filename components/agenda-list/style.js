@@ -18,7 +18,7 @@ const sharedStyles = css`
     margin-left: var(--element-margin);
   }
 
-  .card > div {
+  .card > .card-text {
     width: calc(100% / 3 * 2);
     height: 100%;
     float: right;
@@ -27,7 +27,7 @@ const sharedStyles = css`
     box-sizing: border-box;
   }
 
-  .card > div p:first-child {
+  .card > .card-text p:first-child {
     font-weight: bold;
   }
 
@@ -36,6 +36,18 @@ const sharedStyles = css`
     width: calc(100% / 3);
     height: 100%;
     box-sizing: border-box;
+  }
+
+  .card.active {
+    box-shadow: inset 0 -0.2rem var(--primary);
+  }
+
+  .card.active > .card-text p:first-child {
+    color: var(--primary);
+  }
+
+  .card:hover {
+    cursor: pointer;
   }
 `;
 

@@ -12,10 +12,10 @@ class AgendaList extends LitElement {
     super();
 
     this.events = [
-      { title: "Titre", name: "Nom court", date: "date ou période", thumbnail: "thumbnail.png", alt: "image" },
-      { title: "Exemple", name: "Séance", date: "10.01.2023", thumbnail: "thumbnail.png", alt: "image" },
-      { title: "Exemple", name: "Séance", date: "10.01.2023", thumbnail: "thumbnail.png", alt: "image" },
-      { title: "Exemple", name: "Séance", date: "10.01.2023", thumbnail: "thumbnail.png", alt: "image" }
+      { id: "1", title: "Titre1", name: "Nom court", date: "date ou période", thumbnail: "thumbnail.png", alt: "image", selected: false },
+      { id: "2", title: "Titre2", name: "Séance", date: "10.01.2023", thumbnail: "thumbnail.png", alt: "image", selected: false },
+      { id: "3", title: "Titre3", name: "Séance", date: "10.01.2023", thumbnail: "thumbnail.png", alt: "image", selected: false },
+      { id: "4", title: "Titre4", name: "Séance", date: "10.01.2023", thumbnail: "thumbnail.png", alt: "image", selected: false }
     ];
   }
 
@@ -26,22 +26,32 @@ class AgendaList extends LitElement {
   render() {
     return html`
       <section id="agenda-cards">
-        ${this.events.map(this._eventTemplate)}
+        ${this.events.map((event) => html`
+          <div class="card" @mouseover=${this._handleMouseover} @mouseout=${this._handleMouseout} @click=${()=>this._openModal(event)}>
+            <agenda-thumbnail .src=${event.thumbnail} .alt=${event.alt}></agenda-thumbnail>
+            <div class="card-text">
+              <p>${event.title}</p>
+              <p>${event.name}</p>
+              <p>${event.date}</p>
+            </div>
+          </div>
+          <agenda-modal .id=${event.id} .selected=${event.selected}></agenda-modal>
+        `)}
       </section>
     `;
   }
 
-  _eventTemplate(event) {
-    return html`
-      <article class="card">
-        <agenda-thumbnail .src=${event.thumbnail} .alt=${event.alt}></agenda-thumbnail>
-        <div>
-          <p>${event.title}</p>
-          <p>${event.name}</p>
-          <p>${event.date}</p>
-        </div>
-      </article>
-    `;
+  _handleMouseover(e) {
+    e.currentTarget.classList.add('active');
+  }
+
+  _handleMouseout(e) {
+    e.currentTarget.classList.remove('active');
+  }
+
+  _openModal(e) {
+    e.selected = !e.selected;
+    this.requestUpdate();
   }
 }
 
